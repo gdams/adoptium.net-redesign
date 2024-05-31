@@ -15,14 +15,14 @@ describe('LeavingSiteDisclaimerModal component', () => {
     const { container } = render(
       <LeavingSiteDisclaimerModal open={false} setOpen={undefined}  message={""} location={""} />
     );
-    expect(container).toMatchSnapshot();
+    expect(container).toMatchSnapshot()
   });
 
   it('LeavingSiteDisclaimerModal renders correctly when open', () => {
     const { container } = render(
       <LeavingSiteDisclaimerModal open={true} setOpen={undefined}  message={"message_mock"} location={"location_mock"} />
     );
-    expect(container).toMatchSnapshot();
+    expect(container).toMatchSnapshot()
   });
 
   it('LeavingSiteDisclaimerModal continue correctly when continue is clicked', async () => {
@@ -32,11 +32,12 @@ describe('LeavingSiteDisclaimerModal component', () => {
       <LeavingSiteDisclaimerModal open={true} setOpen={setOpen}  message={"message_mock"} location={"location_mock"} />
     );
 
-    const cancelButton = container.querySelectorAll('button')[0];
+    // NOTE: buttons are in flex order
+    const continueButton = screen.getByTestId('continue')
 
-    await userEvent.click(cancelButton).then(async() => {
-      expect(setOpen).toBeCalledTimes(1)
-      expect(container).toMatchSnapshot();
+    await userEvent.click(continueButton).then(async() => {
+      expect(setOpen).toBeCalledTimes(0)
+      expect(container).toMatchSnapshot()
     });
   });
 
@@ -47,11 +48,12 @@ describe('LeavingSiteDisclaimerModal component', () => {
       <LeavingSiteDisclaimerModal open={true} setOpen={setOpen}  message={"message_mock"} location={"location_mock"} />
     );
 
-    const continueButton = container.querySelectorAll('button')[1];
+    // NOTE: buttons are in flex order
+    const cancelButton = screen.getByTestId('cancel')
 
-    await userEvent.click(continueButton).then(async() => {
-      expect(setOpen).toBeCalledTimes(0)
-      expect(container).toMatchSnapshot();
+    await userEvent.click(cancelButton).then(async() => {
+      expect(setOpen).toBeCalledTimes(1)
+      expect(container).toMatchSnapshot()
     });
   });
 });
